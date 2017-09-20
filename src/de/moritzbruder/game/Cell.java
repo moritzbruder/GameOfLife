@@ -19,6 +19,15 @@ public class Cell {
 
     }
 
+    public static class Position {
+        int x, y;
+
+        public Position (int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
     /**
      * Flag showing whether this cell is alive.
      */
@@ -42,11 +51,11 @@ public class Cell {
     /**
      * Creates a new {@link Cell}-instance
      */
-    public Cell (int xPos, int yPos, @NotNull Field field) {
+    public Cell (int xPos, int yPos, @NotNull Field field, boolean alive) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.field = field;
-
+        this.mIsAlive = alive;
     }
 
     /**
@@ -58,9 +67,25 @@ public class Cell {
     }
 
     /**
-     * Used to manually set this cell alive (for user-input or presets)
+     * Used to manually set this cell alive/dead (for user-input or presets)
      */
-    public void makeAlive () {
+    public void toggleAlive() {
+        this.mIsAlive = !mIsAlive;
+
+    }
+
+    /**
+     * Sets the state of this cell to dead.
+     */
+    public void kill () {
+        this.mIsAlive = false;
+
+    }
+
+    /**
+     * Sets the state of this cell to alive
+     */
+    public void becomeAlive () {
         this.mIsAlive = true;
 
     }
@@ -79,7 +104,7 @@ public class Cell {
                 if (x == 0 && y == 0) continue;
 
                 //get neighbour, check state and increase according counter
-                if (this.field.getCell(x, y).isAlive()) aliveCount++;
+                if (this.field.getCell(xPos + x, yPos + y).isAlive()) aliveCount++;
                 else deadCount++;
             }
 
@@ -115,5 +140,13 @@ public class Cell {
     @Override
     public String toString() {
         return super.toString() + " [" + xPos + ", " + yPos + "]";
+    }
+
+    public int getX() {
+        return xPos;
+    }
+
+    public int getY() {
+        return yPos;
     }
 }
