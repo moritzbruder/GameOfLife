@@ -49,13 +49,19 @@ public class Cell {
     private Field field;
 
     /**
+     * Simple object that is only known to the field that created this Cell. Just to make sure no wrong calls happen.
+     */
+    Object key;
+
+    /**
      * Creates a new {@link Cell}-instance
      */
-    public Cell (int xPos, int yPos, @NotNull Field field, boolean alive) {
+    public Cell (int xPos, int yPos, @NotNull Field field, boolean alive, Object key) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.field = field;
         this.mIsAlive = alive;
+        this.key = key;
     }
 
     /**
@@ -67,17 +73,10 @@ public class Cell {
     }
 
     /**
-     * Used to manually set this cell alive/dead (for user-input or presets)
-     */
-    public void toggleAlive() {
-        this.mIsAlive = !mIsAlive;
-
-    }
-
-    /**
      * Sets the state of this cell to dead.
      */
-    public void kill () {
+    public void kill (Object key) {
+        if (key != this.key) throw new IllegalAccessError("Wrong caller tries to #kill this cell: " + this);
         this.mIsAlive = false;
 
     }
@@ -85,7 +84,8 @@ public class Cell {
     /**
      * Sets the state of this cell to alive
      */
-    public void becomeAlive () {
+    public void becomeAlive (Object key) {
+        if (key != this.key) throw new IllegalAccessError("Wrong caller tries to #becomeAlive this cell: " + this);
         this.mIsAlive = true;
 
     }

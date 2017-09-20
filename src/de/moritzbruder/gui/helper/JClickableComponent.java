@@ -8,9 +8,9 @@ import java.awt.event.MouseListener;
  * Just for better syntax. Like this only the needed methods have to be overridden
  * Created by Moritz Bruder on 20.09.2017.
  */
-public class ClickableComponent extends JComponent implements MouseListener {
+public class JClickableComponent extends JComponent implements MouseListener {
 
-    public ClickableComponent () {
+    public JClickableComponent() {
         //Call super & add self as mouse listener
         super();
         this.addMouseListener(this);

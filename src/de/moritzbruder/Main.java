@@ -9,9 +9,6 @@ public class Main {
 	// write your code here
 
         Field field = new Field(20, 20);
-        field.getCell(2, 1).toggleAlive();
-        field.getCell(2, 2).toggleAlive();
-        field.getCell(2, 3).toggleAlive();
         FrameDisplayer frameDisplayer = new FrameDisplayer(field);
 
     }

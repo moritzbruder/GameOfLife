@@ -1,16 +1,11 @@
 package de.moritzbruder.gui;
 
-import de.moritzbruder.game.Cell;
 import de.moritzbruder.game.Field;
-import de.moritzbruder.gui.helper.ClickableComponent;
 import de.moritzbruder.gui.interaction.AutoRound;
-import de.moritzbruder.gui.interaction.FieldMenu;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.util.concurrent.*;
 
 /**
@@ -64,8 +59,18 @@ public class FrameDisplayer {
         frame.add(frequencyLabel);
         frequencyLabel.setBounds(700, 180, 150, 30);
 
-        //Add FieldPanel
-        FieldPanel fieldComp = new FieldPanel(this.field);
+        //Text Showing how many cells are alive/dead
+        JLabel statsLabel = new JLabel("N/A");
+        frame.add(statsLabel);
+        statsLabel.setBounds(700, 250, 250, 30);
+
+        //Progress bar showing how many cell are alive/dead
+        StatsComponent statsComp = new StatsComponent(field);
+        frame.add(statsComp);
+        statsComp.setBounds(700, 220, 400, 25);
+
+        //Add FieldComponent
+        FieldComponent fieldComp = new FieldComponent(this.field);
         fieldComp.setBounds(50, 50, 500, 500);
         frame.add(fieldComp);
 
@@ -108,6 +113,8 @@ public class FrameDisplayer {
             @Override
             public void onRepaintRequired() {
                 fieldComp.repaint();
+                statsComp.repaint();
+                statsLabel.setText(field.getAliveCellCount() + " of " + field.getCellCount() + " cells are alive.");
             }
         });
 

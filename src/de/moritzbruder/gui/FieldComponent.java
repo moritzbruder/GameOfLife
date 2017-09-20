@@ -2,7 +2,7 @@ package de.moritzbruder.gui;
 
 import de.moritzbruder.game.Cell;
 import de.moritzbruder.game.Field;
-import de.moritzbruder.gui.helper.ClickableComponent;
+import de.moritzbruder.gui.helper.JClickableComponent;
 import de.moritzbruder.gui.interaction.FieldMenu;
 
 import java.awt.*;
@@ -11,11 +11,11 @@ import java.awt.event.MouseEvent;
 /**
  * Created by Moritz Bruder on 20.09.2017.
  */
-public class FieldPanel extends ClickableComponent {
+public class FieldComponent extends JClickableComponent {
 
     Field field;
 
-    public FieldPanel (Field field) {
+    public FieldComponent(Field field) {
         super();
         this.field = field;
 
@@ -49,7 +49,11 @@ public class FieldPanel extends ClickableComponent {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        field.getCell(getCellCoords(e.getPoint())).toggleAlive();
+        //Get cell and kill/makeAlive depending on current state
+        Cell cell = field.getCell(getCellCoords(e.getPoint()));
+        if (cell.isAlive()) field.killCell(cell);
+        else field.makeCellComeAlive(cell);
+
         this.repaint();
     }
 

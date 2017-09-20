@@ -20,11 +20,13 @@ public class Field {
 
 
     /*   VARIABLES   */
-    private int width, height;
+    private int width, height, currentlyAliveCount = 0;
 
     private Cell[][] field;
 
     private FieldDisplayDelegate delegate;
+
+    Object key = new Object();
 
 
     /*   CLASS-BODY   */
@@ -54,7 +56,7 @@ public class Field {
             for (int y = 0; y < result[x].length; y++) {
                 //Determine if the cell was alive in the previous size
                 boolean alive = (x < getWidth() && y < getHeight()) ? getCell(x, y).isAlive() : false;
-                result[x][y] = new Cell(x, y, this, alive);
+                result[x][y] = new Cell(x, y, this, alive, this.key);
             }
 
         this.width = width;
@@ -97,11 +99,23 @@ public class Field {
         return height;
     }
 
+    public int getCellCount () {
+        return getWidth() * getHeight();
+
+    }
+
+    public int getAliveCellCount () {
+        return this.currentlyAliveCount;
+
+    }
+
     /**
      * Triggers the calculation of the following states for each cell. Iterates through all cells to calculate and then again to commit and draw
      */
     public void nextRound () {
         //Go through all cells and calculate upcoming state and then commit
+
+        currentlyAliveCount = 0;
 
         for (int x = 0; x < field.length; x++)
             for (int y = 0; y < Field.this.field[x].length; y++) {
@@ -112,9 +126,10 @@ public class Field {
             for (int y = 0; y < Field.this.field[x].length; y++) {
                 Cell cell = this.getCell(x, y);
                 cell.commit();
+                if (cell.isAlive()) currentlyAliveCount++;
             }
 
-            if (delegate != null) delegate.onRepaintRequired();
+        if (delegate != null) delegate.onRepaintRequired();
     }
 
     public void forEach (Consumer<Cell> consumer) {
@@ -125,13 +140,17 @@ public class Field {
     }
 
     public void killCell (Cell c) {
-        c.kill();
+        if (c.isAlive()) currentlyAliveCount--;
+        c.kill(this.key);
         if (delegate != null) delegate.onRepaintRequired();
+
     }
 
     public void makeCellComeAlive (Cell c) {
-        c.becomeAlive();
+        if (!c.isAlive()) currentlyAliveCount++;
+        c.becomeAlive(this.key);
         if (delegate != null) delegate.onRepaintRequired();
+
     }
 
     /**
