@@ -14,10 +14,12 @@ import java.awt.event.MouseEvent;
 public class FieldComponent extends JClickableComponent {
 
     Field field;
+    Frame frame;
 
-    public FieldComponent(Field field) {
+    public FieldComponent(Field field, Frame frame) {
         super();
         this.field = field;
+        this.frame = frame;
 
     }
 
@@ -59,7 +61,7 @@ public class FieldComponent extends JClickableComponent {
 
     @Override
     protected void openPopup(MouseEvent e) {
-        FieldMenu menu = new FieldMenu(this.field);
+        FieldMenu menu = new FieldMenu(this.field, this.frame);
         menu.show(e.getComponent(), e.getX(), e.getY());
     }
 

@@ -12,8 +12,8 @@ import java.awt.event.ActionListener;
  */
 public class SizeDialog {
 
-    public static void show (Field field) {
-        JFrame frame = new JFrame();
+    public static void show (Field field, Frame parent) {
+        Dialog frame = new Dialog(parent);
         frame.setTitle("Resize Field");
         frame.setLayout(null);
         frame.setSize(300, 170);

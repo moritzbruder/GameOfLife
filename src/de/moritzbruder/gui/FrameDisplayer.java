@@ -70,7 +70,7 @@ public class FrameDisplayer {
         statsComp.setBounds(700, 220, 400, 25);
 
         //FieldComponent
-        FieldComponent fieldComp = new FieldComponent(this.field);
+        FieldComponent fieldComp = new FieldComponent(this.field, frame);
         fieldComp.setBounds(50, 50, 500, 500);
         frame.add(fieldComp);
 
