@@ -3,6 +3,8 @@ package de.moritzbruder.io;
 import de.moritzbruder.game.Cell;
 import de.moritzbruder.game.Field;
 
+import java.nio.charset.UnmappableCharacterException;
+
 /**
  * Helper-class used to apply a previously exported state onto a field
  * @author Created by Moritz Bruder on 21.09.2017.
@@ -47,13 +49,18 @@ public class StringImport {
             //go through every cell and apply state from string
             for (int x = 0; x < width; x++)
                 for (int y = 0; y < height; y++) {
+                    //Get field for current coords
                     Cell c  = field.getCell(x, y);
-                    if (cellState[(x * height + y)].equals("+")) field.makeCellComeAlive(c);
-                    else field.killCell(c);
+                    //Read cell state for column x and row y and apply to field
+                    String state = cellState[(x * height + y)];
+                    if (state.equals("+")) field.makeCellComeAlive(c);
+                    else if (state.equals("-")) field.killCell(c);
+                    else throw new UnmappableCharacterException(state.charAt(0));
                 }
 
             //Done
         } catch (Exception e) {
+            //Something went wrong. This must be caused by wrong input format, so we throw a FormatException
             throw (FormatException) new FormatException().initCause(e);
         }
 

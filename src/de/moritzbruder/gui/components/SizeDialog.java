@@ -4,15 +4,15 @@ import de.moritzbruder.game.Field;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
- * Created by morit on 21.09.2017.
+ * A Dialog that allows the User to change the size of the Game Field
+ * @author Created by morit on 21.09.2017.
  */
 public class SizeDialog {
 
     public static void show (Field field, Frame parent) {
+        //Make new Dialog with given size and title
         Dialog frame = new Dialog(parent);
         frame.setTitle("Resize Field");
         frame.setLayout(null);
@@ -20,41 +20,50 @@ public class SizeDialog {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
 
+        //Add Label that says "Width:"
         JLabel widthLabel = new JLabel("Width:");
         frame.add(widthLabel);
         widthLabel.setBounds(20, 15, 60, 25);
 
-        JNumericTextField widthField = new JNumericTextField("" + field.getWidth());
+        //Add TextField for user to input th desired width
+        JNumericTextField widthField = new JNumericTextField(field.getWidth());
         frame.add(widthField);
         widthField.setBounds(100, 15, 180, 25);
 
+        //Add Label that says "Height:"
         JLabel heightLabel = new JLabel("Height:");
         frame.add(heightLabel);
         heightLabel.setBounds(20, 50, 60, 25);
 
-        JNumericTextField heightField = new JNumericTextField("" + field.getHeight());
+        //Add TextField for user to input desired height
+        JNumericTextField heightField = new JNumericTextField(field.getHeight());
         frame.add(heightField);
         heightField.setBounds(100, 50, 180, 25);
 
+        //Add "apply" button
         JButton okButton = new JButton("Apply");
         frame.add(okButton);
         okButton.setBounds(210, 100, 70, 25);
 
+        //Add "cancel" button
         JButton cancelButton = new JButton("Cancel");
         frame.add(cancelButton);
         cancelButton.setBounds(120, 100, 80, 25);
 
         okButton.addActionListener(e -> {
+            //Apply the size to the given field and hide the dialog
             field.resize(widthField.getValue(), heightField.getValue());
             frame.setVisible(false);
 
         });
 
         cancelButton.addActionListener(e -> {
+            //Hide dialog
             frame.setVisible(false);
 
         });
 
+        //Show dialog
         frame.setVisible(true);
     }
 

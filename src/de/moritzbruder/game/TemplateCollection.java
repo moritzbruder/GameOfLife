@@ -3,8 +3,6 @@ package de.moritzbruder.game;
 import de.moritzbruder.io.StringImport;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Collection of Templates that come included with the program
@@ -16,27 +14,46 @@ public class TemplateCollection {
             new Template("Test", "20x20;+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,-,+")
     };
 
+    /**
+     * An Object representing a Template
+     */
     private static class Template {
 
+        /**
+         * Name as shown in UI
+         */
         private String name;
+
+        /**
+         * The String for this template as created by {@link de.moritzbruder.io.StringExport}
+         */
         private String content;
 
+        /**
+         * Creates a new instance
+         * @param name The desired name for this template {@link #name}
+         * @param content {@link #content}
+         */
         public Template (String name, String content) {
             this.name = name;
             this.content = content;
 
         }
 
+        /**
+         * Adds the template to the given Menu
+         * @param menu The Menu to add this template to
+         * @param field The Field that the Template should be applied to when the menu item is selected
+         */
         public void applySelfToMenu (JMenu menu, Field field) {
+            //Create item
             JMenuItem item = new JMenuItem(this.name);
-            item.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        StringImport.apply(Template.this.content, field);
-                    } catch (StringImport.FormatException exc) {
-                        //This is no user-input so it is given that these are in the right format
-                    }
+            item.addActionListener(e -> {
+                try {
+                    //Apply the template to field
+                    StringImport.apply(Template.this.content, field);
+                } catch (StringImport.FormatException exc) {
+                    //This is no user-input so it is given that these are in the right format
                 }
             });
             menu.add(item);
@@ -44,8 +61,15 @@ public class TemplateCollection {
         }
     }
 
+    /**
+     * Adds all {@link Template Templates} to the given Menu
+     * @param menu The Menu that the templates should be added to
+     * @param field The Field that the templates should be applied to
+     */
     public static void applyToMenu (JMenu menu, Field field) {
+        //Iterate through templates and apply
         for (int i = 0; i < TEMPLATES.length; i++) TEMPLATES[i].applySelfToMenu(menu, field);
+
 
     }
 

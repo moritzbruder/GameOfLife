@@ -6,10 +6,10 @@ import de.moritzbruder.gui.components.StatsComponent;
 import de.moritzbruder.gui.interaction.AutoRound;
 
 import javax.swing.*;
-import java.util.concurrent.*;
 
 /**
- * Created by Moritz Bruder on 15.09.2017.
+ * A helper-class to create A frame that displays a Game Of Life
+ * @author Created by Moritz Bruder on 15.09.2017.
  */
 public class FrameDisplayer {
 
@@ -18,12 +18,20 @@ public class FrameDisplayer {
      */
     Field field;
 
+    /**
+     * The Frame that is created by this helper class
+     */
     JFrame frame;
 
+    /**
+     * A timed loop that automatically triggrs the next round
+     */
     AutoRound autoRound;
 
-    ThreadPoolExecutor drawUpdateQueue = new ThreadPoolExecutor(2, 4, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(100));
-
+    /**
+     * Creates a new instance
+     * @param field The Field that should be displayed
+     */
     public FrameDisplayer (Field field) {
         this.field = field;
         this.autoRound = new AutoRound(field);
@@ -109,9 +117,9 @@ public class FrameDisplayer {
 
 
         //Subscribe to changes on the field
-        field.subscribe(new Field.FieldDisplayDelegate() {
+        field.subscribe(new Field.OnFieldChangedListener() {
             @Override
-            public void onRepaintRequired() {
+            public void onFieldChanged() {
                 fieldComp.repaint();
                 statsComp.repaint();
                 statsLabel.setText(field.getAliveCellCount() + " of " + field.getCellCount() + " cells are alive.");

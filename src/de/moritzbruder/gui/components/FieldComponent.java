@@ -9,13 +9,26 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 /**
- * Created by Moritz Bruder on 20.09.2017.
+ * A {@link JClickableComponent} subclass that shows a given {@link Field}
+ * @author Created by Moritz Bruder on 20.09.2017.
  */
 public class FieldComponent extends JClickableComponent {
 
+    /**
+     * The Field that should be displayed by this {@link FieldComponent}
+     */
     Field field;
+
+    /**
+     * The {@link Frame} which contains this {@link FieldComponent}
+     */
     Frame frame;
 
+    /**
+     * Creates a new instance
+     * @param field {@link #field}
+     * @param frame {@link #frame}
+     */
     public FieldComponent(Field field, Frame frame) {
         super();
         this.field = field;
@@ -65,12 +78,22 @@ public class FieldComponent extends JClickableComponent {
         menu.show(e.getComponent(), e.getX(), e.getY());
     }
 
+    /**
+     * Claculates which cell-coords occupy the point of the given coordinates
+     * @param pixelCoords The Target, for which the cell should be found
+     * @return The field.coordinates of the cell that contains the Point with the given coords
+     */
     private Cell.Position getCellCoords (Point pixelCoords) {
         int x = ((pixelCoords.x * field.getWidth()) / this.getWidth());
         int y = ((pixelCoords.y * field.getHeight()) / this.getHeight());
         return new Cell.Position(x, y);
     }
 
+    /**
+     * Helper Method that calculates the Pixel outlines for a given cell
+     * @param c The {@link Cell} that should be displayed
+     * @return The Position and Size of a rectangle that may represent the given cell
+     */
     private Rectangle makeRectForCell (Cell c) {
         int x = (c.getX() * (this.getWidth())) / field.getWidth();
         int y = (c.getY() * (this.getWidth())) / field.getWidth();

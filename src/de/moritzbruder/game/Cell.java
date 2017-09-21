@@ -3,7 +3,7 @@ package de.moritzbruder.game;
 import com.sun.istack.internal.NotNull;
 
 /**
- * Created by Moritz Bruder on 15.09.2017.
+ * @author Created by Moritz Bruder on 15.09.2017.
  */
 public class Cell {
 
@@ -19,6 +19,9 @@ public class Cell {
 
     }
 
+    /**
+     * A simple Object containing the x- and y-coordinate of a {@link Cell}
+     */
     public static class Position {
         int x, y;
 
@@ -142,10 +145,16 @@ public class Cell {
         return super.toString() + " [" + xPos + ", " + yPos + "]";
     }
 
+    /**
+     * @return The x-coordinate of the {@link Cell}
+     */
     public int getX() {
         return xPos;
     }
 
+    /**
+     * @return The y-coordinate of the {@link Cell}
+     */
     public int getY() {
         return yPos;
     }

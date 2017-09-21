@@ -10,6 +10,9 @@ import java.awt.event.MouseListener;
  */
 public class JClickableComponent extends JComponent implements MouseListener {
 
+    /**
+     * Creates a new instance and adds self as {@link MouseListener} to listen for clicks
+     */
     public JClickableComponent() {
         //Call super & add self as mouse listener
         super();
@@ -24,12 +27,14 @@ public class JClickableComponent extends JComponent implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        //Show popupmenu
         if (e.isPopupTrigger())
             openPopup(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        //Show popupmenu
         if (e.isPopupTrigger())
             openPopup(e);
     }
@@ -44,6 +49,11 @@ public class JClickableComponent extends JComponent implements MouseListener {
 
     }
 
+    /**
+     * To be overridden. If mousePressed and mouseReleased are not overridden (or you call super in your subclass),
+     * this will be called when it is appropriate to show a context-menu
+     * @param e The MouseEvent that triggered the call
+     */
     protected void openPopup(MouseEvent e){
     }
 }

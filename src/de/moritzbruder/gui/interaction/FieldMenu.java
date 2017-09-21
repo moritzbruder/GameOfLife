@@ -1,6 +1,5 @@
 package de.moritzbruder.gui.interaction;
 
-import com.sun.xml.internal.ws.wsdl.writer.document.OpenAtts;
 import de.moritzbruder.game.Field;
 import de.moritzbruder.game.TemplateCollection;
 import de.moritzbruder.gui.components.SizeDialog;
@@ -15,11 +14,19 @@ import java.awt.event.ActionListener;
 import java.io.*;
 
 /**
- * Created by Moritz Bruder on 20.09.2017.
+ * A context-menu that contains useful actions for a {@link Field}
+ * @author Created by Moritz Bruder on 20.09.2017.
  */
 public class FieldMenu extends JPopupMenu {
 
+    /**
+     * Creates a new instance
+     * @param field The field that the operations should be executed on
+     * @param parentFrame The Frame that this PopupMenu was triggered on
+     */
     public FieldMenu(Field field, Frame parentFrame){
+
+        //Add Item to kill all cells at once
         JMenuItem killAllItem = new JMenuItem("Kill All");
         killAllItem.addActionListener(e -> {
             System.out.println("Killing all cells");
@@ -27,13 +34,17 @@ public class FieldMenu extends JPopupMenu {
         });
         add(killAllItem);
 
+        //Add Item to open ResizeDialog for the given Field
         JMenuItem resizeItem = new JMenuItem("Resize");
         resizeItem.addActionListener(e -> {
             SizeDialog.show(field, parentFrame);
         });
         add(resizeItem);
 
+        //Add Submenu for export-actions
         JMenu exportMenu = new JMenu("Exportieren");
+
+        //Add Item to export to the clipboard
         JMenuItem exportClipboardItem = new JMenuItem("In die Zwischenablage");
         exportClipboardItem.addActionListener(new ActionListener() {
             @Override
@@ -42,6 +53,8 @@ public class FieldMenu extends JPopupMenu {
             }
         });
         exportMenu.add(exportClipboardItem);
+
+        //Add Item to export to file
         JMenuItem exportFileItem = new JMenuItem("In Datei");
         exportFileItem.addActionListener(new ActionListener() {
             @Override
@@ -64,9 +77,14 @@ public class FieldMenu extends JPopupMenu {
             }
         });
         exportMenu.add(exportFileItem);
+
+        //add submenu
         add(exportMenu);
 
+        //Add Submenu for import-actions
         JMenu importMenu = new JMenu("Importieren");
+
+        //Add Item to import from a file
         JMenuItem importFileItem = new JMenuItem("Aus Datei");
         importFileItem.addActionListener(new ActionListener() {
             @Override
@@ -98,10 +116,12 @@ public class FieldMenu extends JPopupMenu {
         });
         importMenu.add(importFileItem);
 
+        //Add Submenu with items to apply a template to the given field
         JMenu importCollectionMenu = new JMenu("Aus Pattern-Sammlung");
         TemplateCollection.applyToMenu(importCollectionMenu, field);
         importMenu.add(importCollectionMenu);
 
+        //add submenu
         add(importMenu);
     }
 
