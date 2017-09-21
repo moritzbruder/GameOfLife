@@ -1,6 +1,7 @@
 package de.moritzbruder.gui.interaction;
 
 import de.moritzbruder.game.Field;
+import de.moritzbruder.gui.components.SizeDialog;
 
 import javax.swing.*;
 
@@ -19,8 +20,7 @@ public class FieldMenu extends JPopupMenu {
 
         JMenuItem resizeItem = new JMenuItem("Resize");
         resizeItem.addActionListener(e -> {
-            System.out.println("Resizing");
-            field.resize(50, 50);
+            SizeDialog.show(field);
         });
         add(resizeItem);
     }

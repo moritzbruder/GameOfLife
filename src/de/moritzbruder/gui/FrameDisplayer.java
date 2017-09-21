@@ -1,11 +1,11 @@
 package de.moritzbruder.gui;
 
 import de.moritzbruder.game.Field;
+import de.moritzbruder.gui.components.FieldComponent;
+import de.moritzbruder.gui.components.StatsComponent;
 import de.moritzbruder.gui.interaction.AutoRound;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.concurrent.*;
 
 /**
@@ -69,11 +69,15 @@ public class FrameDisplayer {
         frame.add(statsComp);
         statsComp.setBounds(700, 220, 400, 25);
 
-        //Add FieldComponent
+        //FieldComponent
         FieldComponent fieldComp = new FieldComponent(this.field);
         fieldComp.setBounds(50, 50, 500, 500);
         frame.add(fieldComp);
 
+        //Field Size
+        JLabel sizeLabel = new JLabel("Size: ");
+        frame.add(sizeLabel);
+        sizeLabel.setBounds(50, 550, 150, 30);
 
 
         /*   Controls logic   */
@@ -97,14 +101,10 @@ public class FrameDisplayer {
         });
 
         //Manually trigger next round
-        nextRoundButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("NextRound-Button Clicked");
-                field.nextRound();
-                fieldComp.invalidate();
-                fieldComp.repaint();
-            }
+        nextRoundButton.addActionListener(e -> {
+            System.out.println("NextRound-Button Clicked");
+            field.nextRound();
+            fieldComp.repaint();
         });
 
 
@@ -115,6 +115,7 @@ public class FrameDisplayer {
                 fieldComp.repaint();
                 statsComp.repaint();
                 statsLabel.setText(field.getAliveCellCount() + " of " + field.getCellCount() + " cells are alive.");
+                sizeLabel.setText("Size: " + field.getWidth() + "x" + field.getHeight());
             }
         });
 

@@ -1,4 +1,4 @@
-package de.moritzbruder.gui;
+package de.moritzbruder.gui.components;
 
 import de.moritzbruder.game.Field;
 
