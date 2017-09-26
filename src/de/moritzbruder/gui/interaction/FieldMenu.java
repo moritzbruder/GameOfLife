@@ -9,6 +9,8 @@ import de.moritzbruder.io.StringImport;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 
 /**
@@ -102,6 +104,34 @@ public class FieldMenu extends JPopupMenu {
 
         //add submenu
         add(importMenu);
+
+
+        //Add Item to simulate game until death
+        JMenuItem simulateItem = new JMenuItem("Simulate to Death");
+        simulateItem.addActionListener(e -> new Thread(() -> {
+            long startTime = System.currentTimeMillis();
+            int timeout = 1000; //1 sec
+
+            long stepCount = 0;
+            int maxAlive = 0;
+
+            while (System.currentTimeMillis() - startTime < timeout && field.getAliveCellCount() != 0) {
+                if (field.getAliveCellCount() > maxAlive) maxAlive = field.getAliveCellCount();
+                field.nextRound();
+                stepCount++;
+
+            }
+
+            if (field.getAliveCellCount() == 0) {
+                //Simulation done
+                JOptionPane.showMessageDialog(parentFrame, "Done Simulating. It took " + stepCount + " rounds until all cells died. At most there were " + maxAlive + " cells alive.");
+
+            } else {
+                //Timeout
+                JOptionPane.showMessageDialog(parentFrame, "Error (Timeout): It took longer than 1 second to simulate until all cells are dead.");
+            }
+        }).start());
+        add(simulateItem);
     }
 
 }
