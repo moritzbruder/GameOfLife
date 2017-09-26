@@ -4,7 +4,7 @@
 I decided to create a version of the game of life that is is used via a GUI.
 
 ## How to use
-To get started just download the jar from [here](bin/GameOfLive.jar)
+To get started just download the jar from [here](bin/GameOfLife.jar)
 
 Then launch it by double-clicking on the downloaded file or using the following command from the terminal: `java -jar GameOfLife.jar` (Make sure your working directory contains the downloaded file)
 
