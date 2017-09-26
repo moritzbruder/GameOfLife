@@ -4,20 +4,20 @@
 I decided to create a version of the game of life that is is used via a GUI.
 
 ## How to use
-To get started, just download the jar from [here](bin/GameOfLife.jar)
+To get started, just **download the jar** from [here](bin/GameOfLife.jar)
 
-Then launch it by double-clicking on the downloaded file or using the following command from the terminal: `java -jar GameOfLife.jar` (Make sure your working directory contains the downloaded file)
+Then launch it by **double-clicking on the downloaded file** or using the following command from the terminal: `java -jar GameOfLife.jar` (Make sure your working directory contains the downloaded file)
 
 
 When launching from the command-line you have the option to use the following arguments:
 
-`--verbose` -> Causes the program to output information about what the user is doing to the terminal 	|
+`--verbose` -> Causes the program to output information about what the user is doing to the terminal
 
 ### Field
 
 ![Field-Component](/img/FieldComponent.png)
 
-The big grid in the upper half displays the _GameOfLife-Field_. White cells are dead, while the red ones are alive.
+The big grid in the upper half displays the _GameOfLife-Field_. **White cells are dead, while the red ones are alive**.
 
 Right after launching, all cells are dead but you can **click on any cell to toggle its alive-state**.
 
