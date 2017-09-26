@@ -73,11 +73,6 @@ public class FrameDisplayer {
         frame.add(statsLabel);
         statsLabel.setBounds(50, 750, 500, 30);
 
-
-        JSeparator separator = new JSeparator();
-        frame.add(separator);
-        separator.setBounds(100, 100, 100, 100);
-
         //Progress bar showing how many cell are alive/dead
         StatsComponent statsComp = new StatsComponent(field);
         frame.add(statsComp);
@@ -115,7 +110,6 @@ public class FrameDisplayer {
 
         //Manually trigger next round
         nextRoundButton.addActionListener(e -> {
-            System.out.println(frame.getWidth() + "x" + frame.getHeight());
             field.nextRound();
 
         });

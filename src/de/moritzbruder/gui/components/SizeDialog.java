@@ -57,8 +57,15 @@ public class SizeDialog {
 
         okButton.addActionListener(e -> {
             //Apply the size to the given field and hide the dialog
+            if (widthField.getValue() > 100 || heightField.getValue() > 100) {
+                //Max size is 100
+                JOptionPane.showMessageDialog(frame, "The field must not be higher or wider than 100 cells!");
+                return;
+            }
             field.resize(widthField.getValue(), heightField.getValue());
             frame.setVisible(false);
+
+            System.out.println("Resized " + field + " to " + field.getWidth() + "x" + field.getHeight());
 
         });
 

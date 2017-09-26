@@ -9,8 +9,6 @@ import de.moritzbruder.io.StringImport;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 
 /**
@@ -40,10 +38,10 @@ public class FieldMenu extends JPopupMenu {
         add(resizeItem);
 
         //Add Submenu for export-actions
-        JMenu exportMenu = new JMenu("Exportieren");
+        JMenu exportMenu = new JMenu("Export");
 
         //Add Item to export to file
-        JMenuItem exportFileItem = new JMenuItem("In Datei");
+        JMenuItem exportFileItem = new JMenuItem("To file");
         exportFileItem.addActionListener(e -> {
             JFileChooser chooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -55,9 +53,9 @@ public class FieldMenu extends JPopupMenu {
                 File file = chooser.getSelectedFile();
                 try(FileWriter fw = new FileWriter(file + (file.getName().endsWith(".gol") ? "" : ".gol"))) {
                     fw.write(content);
-                    JOptionPane.showMessageDialog(parentFrame, "Gespeichert!");
+                    JOptionPane.showMessageDialog(parentFrame, "Saved to file!");
                 } catch (IOException exc) {
-                    JOptionPane.showMessageDialog(parentFrame, "Error: Etwas ist beim abspeichern der Datei fehlgeschlagen :(");
+                    JOptionPane.showMessageDialog(parentFrame, "Error: Something went wrong while saving to the file :(");
                 }
             }
         });
@@ -67,10 +65,10 @@ public class FieldMenu extends JPopupMenu {
         add(exportMenu);
 
         //Add Submenu for import-actions
-        JMenu importMenu = new JMenu("Importieren");
+        JMenu importMenu = new JMenu("Import");
 
         //Add Item to import from a file
-        JMenuItem importFileItem = new JMenuItem("Aus Datei");
+        JMenuItem importFileItem = new JMenuItem("From File");
         importFileItem.addActionListener(e -> {
             JFileChooser chooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -78,7 +76,6 @@ public class FieldMenu extends JPopupMenu {
             chooser.setFileFilter(filter);
             int returnVal = chooser.showOpenDialog(parentFrame);
             if(returnVal == JFileChooser.APPROVE_OPTION) {
-                String content = StringExport.export(field);
                 try(BufferedReader fw = new BufferedReader(new FileReader(chooser.getSelectedFile()))) {
                     String input = "";
                     String cur;
@@ -87,11 +84,11 @@ public class FieldMenu extends JPopupMenu {
                     StringImport.apply(input, field);
                 } catch (IOException exc) {
                     exc.printStackTrace();
-                    JOptionPane.showMessageDialog(parentFrame, "Error: Etwas ist beim lesen der Datei fehlgeschlagen :(");
+                    JOptionPane.showMessageDialog(parentFrame, "Error: Something went wrong while reading the file :(");
 
                 } catch (StringImport.FormatException exc) {
                     exc.printStackTrace();
-                    JOptionPane.showMessageDialog(parentFrame, "Der Inhalt der Datei ist nicht lesbar :(");
+                    JOptionPane.showMessageDialog(parentFrame, "The file's content is not readable :(");
 
                 }
             }
@@ -99,7 +96,7 @@ public class FieldMenu extends JPopupMenu {
         importMenu.add(importFileItem);
 
         //Add Submenu with items to apply a template to the given field
-        JMenu importCollectionMenu = new JMenu("Aus Pattern-Sammlung");
+        JMenu importCollectionMenu = new JMenu("From Pattern-Collection");
         TemplateCollection.applyToMenu(importCollectionMenu, field);
         importMenu.add(importCollectionMenu);
 
