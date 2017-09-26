@@ -48,4 +48,4 @@ This will open a context menu, which allows you to perform the following actions
 ## More
 
 1) I experimented with Multithreading the calculation of the rounds, but decided to stick with the more simple, single-threaded version that is currently in this repo, since my experiments showed that my method of splitting the workload showed effects only when calculating fields with about 3.8 million cells or more (on amd fx-8350).
-2) The JavaDoc can be found [here](/doc/index.html)
+2) The JavaDoc can be found [here](https://moritzbruder.github.io/GameOfLife/)
