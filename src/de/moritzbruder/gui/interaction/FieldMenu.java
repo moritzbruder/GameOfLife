@@ -36,43 +36,28 @@ public class FieldMenu extends JPopupMenu {
 
         //Add Item to open ResizeDialog for the given Field
         JMenuItem resizeItem = new JMenuItem("Resize");
-        resizeItem.addActionListener(e -> {
-            SizeDialog.show(field, parentFrame);
-        });
+        resizeItem.addActionListener(e -> SizeDialog.show(field, parentFrame));
         add(resizeItem);
 
         //Add Submenu for export-actions
         JMenu exportMenu = new JMenu("Exportieren");
 
-        //Add Item to export to the clipboard
-        JMenuItem exportClipboardItem = new JMenuItem("In die Zwischenablage");
-        exportClipboardItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println(StringExport.export(field));
-            }
-        });
-        exportMenu.add(exportClipboardItem);
-
         //Add Item to export to file
         JMenuItem exportFileItem = new JMenuItem("In Datei");
-        exportFileItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser chooser = new JFileChooser();
-                FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        "GameOfLife-File", "gol");
-                chooser.setFileFilter(filter);
-                int returnVal = chooser.showSaveDialog(parentFrame);
-                if(returnVal == JFileChooser.APPROVE_OPTION) {
-                    String content = StringExport.export(field);
-                    File file = chooser.getSelectedFile();
-                    try(FileWriter fw = new FileWriter(file + (file.getName().endsWith(".gol") ? "" : ".gol"))) {
-                        fw.write(content);
-                        JOptionPane.showMessageDialog(parentFrame, "Gespeichert!");
-                    } catch (IOException exc) {
-                        JOptionPane.showMessageDialog(parentFrame, "Error: Etwas ist beim abspeichern der Datei fehlgeschlagen :(");
-                    }
+        exportFileItem.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    "GameOfLife-File", "gol");
+            chooser.setFileFilter(filter);
+            int returnVal = chooser.showSaveDialog(parentFrame);
+            if(returnVal == JFileChooser.APPROVE_OPTION) {
+                String content = StringExport.export(field);
+                File file = chooser.getSelectedFile();
+                try(FileWriter fw = new FileWriter(file + (file.getName().endsWith(".gol") ? "" : ".gol"))) {
+                    fw.write(content);
+                    JOptionPane.showMessageDialog(parentFrame, "Gespeichert!");
+                } catch (IOException exc) {
+                    JOptionPane.showMessageDialog(parentFrame, "Error: Etwas ist beim abspeichern der Datei fehlgeschlagen :(");
                 }
             }
         });
@@ -86,31 +71,28 @@ public class FieldMenu extends JPopupMenu {
 
         //Add Item to import from a file
         JMenuItem importFileItem = new JMenuItem("Aus Datei");
-        importFileItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser chooser = new JFileChooser();
-                FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        "GameOfLife-File", "gol");
-                chooser.setFileFilter(filter);
-                int returnVal = chooser.showOpenDialog(parentFrame);
-                if(returnVal == JFileChooser.APPROVE_OPTION) {
-                    String content = StringExport.export(field);
-                    try(BufferedReader fw = new BufferedReader(new FileReader(chooser.getSelectedFile()))) {
-                        String input = "";
-                        String cur;
-                        while ((cur = fw.readLine()) != null) input += cur;
+        importFileItem.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    "GameOfLife-File", "gol");
+            chooser.setFileFilter(filter);
+            int returnVal = chooser.showOpenDialog(parentFrame);
+            if(returnVal == JFileChooser.APPROVE_OPTION) {
+                String content = StringExport.export(field);
+                try(BufferedReader fw = new BufferedReader(new FileReader(chooser.getSelectedFile()))) {
+                    String input = "";
+                    String cur;
+                    while ((cur = fw.readLine()) != null) input += cur;
 
-                        StringImport.apply(input, field);
-                    } catch (IOException exc) {
-                        exc.printStackTrace();
-                        JOptionPane.showMessageDialog(parentFrame, "Error: Etwas ist beim lesen der Datei fehlgeschlagen :(");
+                    StringImport.apply(input, field);
+                } catch (IOException exc) {
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(parentFrame, "Error: Etwas ist beim lesen der Datei fehlgeschlagen :(");
 
-                    } catch (StringImport.FormatException exc) {
-                        exc.printStackTrace();
-                        JOptionPane.showMessageDialog(parentFrame, "Der Inhalt der Datei ist nicht lesbar :(");
+                } catch (StringImport.FormatException exc) {
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(parentFrame, "Der Inhalt der Datei ist nicht lesbar :(");
 
-                    }
                 }
             }
         });

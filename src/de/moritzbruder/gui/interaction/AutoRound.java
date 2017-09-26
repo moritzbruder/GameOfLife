@@ -8,24 +8,24 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * A timed loop that is used to trigger the next round of a game in a given frequency
- * @author Created by morit on 20.09.2017.
+ * @author Created by Moritz Bruder on 20.09.2017.
  */
 public class AutoRound {
 
     /**
      * Timed executor
      */
-    ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+    private ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
     /**
      * Round-frequency in ms
      */
-    int rate = 500;
+    private int rate = 500;
 
     /**
      * The Field that this loop should trigger the next round on
      */
-    Field field;
+    private Field field;
 
     /**
      * Creates a new instacne
@@ -40,7 +40,7 @@ public class AutoRound {
     /**
      * Runnable that triggers the next round on {@link #field}
      */
-    Runnable nextRoundRunnable = () -> AutoRound.this.field.nextRound();
+    private Runnable nextRoundRunnable = () -> AutoRound.this.field.nextRound();
 
     /**
      * Starts the loop

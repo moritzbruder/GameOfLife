@@ -7,10 +7,15 @@ import java.awt.*;
 
 /**
  * A Dialog that allows the User to change the size of the Game Field
- * @author Created by morit on 21.09.2017.
+ * @author Created by Moritz Bruder on 21.09.2017.
  */
 public class SizeDialog {
 
+    /**
+     * Displays a dialog which allows the user to resize the given {@link Field}
+     * @param field The Field that the user may change
+     * @param parent The Frame the dialog is launched from (needed to stay in foreground)
+     */
     public static void show (Field field, Frame parent) {
         //Make new Dialog with given size and title
         Dialog frame = new Dialog(parent);

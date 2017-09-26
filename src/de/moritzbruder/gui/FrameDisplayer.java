@@ -6,7 +6,6 @@ import de.moritzbruder.gui.components.StatsComponent;
 import de.moritzbruder.gui.interaction.AutoRound;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * A helper-class to create A frame that displays a Game Of Life

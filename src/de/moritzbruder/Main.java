@@ -3,13 +3,22 @@ package de.moritzbruder;
 import de.moritzbruder.game.Field;
 import de.moritzbruder.gui.FrameDisplayer;
 
+/**
+ * Used to launch the GUI
+ */
 public class Main {
 
+    /**
+     * Main Method, called when the program is launched
+     * @param args Arguments from the command-line
+     */
     public static void main(String[] args) {
-	// write your code here
 
+        //Create new Field
         Field field = new Field(20, 20);
-        FrameDisplayer frameDisplayer = new FrameDisplayer(field);
+
+        //Show in Frame
+        new FrameDisplayer(field);
 
     }
 }
