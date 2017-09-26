@@ -13,6 +13,8 @@ When launching from the command-line you have the option to use the following ar
 
 `--verbose` -> Causes the program to output information about what the user is doing to the terminal
 
+&nbsp;
+
 ### Field
 
 ![Field-Component](/img/FieldComponent.png)
@@ -21,17 +23,23 @@ The big grid in the upper half displays the _GameOfLife-Field_. **White cells ar
 
 Right after launching, all cells are dead but you can **click on any cell to toggle its alive-state**.
 
+&nbsp;
+
 ### Controls
 
 ![RoundControls](/img/RoundControl.png)
 
 Below the field you can find the controls to go through different rounds of the game. Either click the button "Next round" to go to the next round or check "Auto-Round" to **automatically go to the next round in a given frequency**. The frequency can be chosen using the slider below the button and the checkbox.
 
+&nbsp;
+
 ### Stats
 
 ![StatsComponent](/img/StatsComponent.png)
 
 At the bottom are a simple visual and a text which indicate how many cells on the field are alive.
+
+&nbsp;
 
 ### (Slightly) Advanced Options
 
@@ -44,7 +52,13 @@ This will open a context menu, which allows you to perform the following actions
 * Import a previously exported state (from file or via an input-prompt) or a predefined pattern
 * Go through all rounds until all cells are dead. (This will print out some info about what happended or timeout after 1.5 seconds)
 
+&nbsp;
+
 ## More
 
 1) I experimented with multithreading when the calculating the rounds, but decided to stick with the more simple, single-threaded version that is currently in this repo, since my experiments showed that my method of splitting the workload showed effects only when calculating fields with about 3.8 million cells or more (on amd fx-8350).
 2) The JavaDoc can be found [here](https://moritzbruder.github.io/GameOfLife/)
+
+&nbsp;
+
+:v: _made in Mannheim, Germany_
