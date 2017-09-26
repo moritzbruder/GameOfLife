@@ -33,7 +33,7 @@ Below the field you can find the controls to go through different rounds of the 
 
 At the bottom are a simple visual and a text which indicate how many cells on the field are alive.
 
-### Settings
+### (Slightly) Advanced Options
 
 To use more features, **right-click onto the field-grid**.
 
