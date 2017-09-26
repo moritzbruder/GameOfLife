@@ -1,6 +1,7 @@
 package de.moritzbruder.gui.components;
 
 import de.moritzbruder.game.Field;
+import de.moritzbruder.io.Verbosity;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,7 +66,7 @@ public class SizeDialog {
             field.resize(widthField.getValue(), heightField.getValue());
             frame.setVisible(false);
 
-            System.out.println("Resized " + field + " to " + field.getWidth() + "x" + field.getHeight());
+            Verbosity.shared.log("Resized " + field + " to " + field.getWidth() + "x" + field.getHeight());
 
         });
 

@@ -4,6 +4,8 @@ import de.moritzbruder.game.Field;
 import de.moritzbruder.gui.components.FieldComponent;
 import de.moritzbruder.gui.components.StatsComponent;
 import de.moritzbruder.gui.interaction.AutoRound;
+import de.moritzbruder.helper.Holder;
+import de.moritzbruder.io.Verbosity;
 
 import javax.swing.*;
 
@@ -99,8 +101,14 @@ public class FrameDisplayer {
 
         });
 
+        Holder<Boolean> autoRoundOn = new Holder<>(false);
+
         //Enable/disable slider and auto-round
         autoRoundCheckBox.addChangeListener(e -> {
+            if (autoRoundOn.v == autoRoundCheckBox.isSelected()) return;
+
+            autoRoundOn.v = autoRoundCheckBox.isSelected();
+            Verbosity.shared.log("Auto-Round " + (autoRoundCheckBox.isSelected() ? "enabled" : "disabled") + ".");
             slider.setEnabled(autoRoundCheckBox.isSelected());
             nextRoundButton.setEnabled(!autoRoundCheckBox.isSelected());
             if (autoRoundCheckBox.isSelected()) autoRound.start();
@@ -110,6 +118,7 @@ public class FrameDisplayer {
 
         //Manually trigger next round
         nextRoundButton.addActionListener(e -> {
+            Verbosity.shared.log("Manually triggered next round");
             field.nextRound();
 
         });

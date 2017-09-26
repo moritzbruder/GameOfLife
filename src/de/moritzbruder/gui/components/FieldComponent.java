@@ -4,6 +4,7 @@ import de.moritzbruder.game.Cell;
 import de.moritzbruder.game.Field;
 import de.moritzbruder.gui.helper.JClickableComponent;
 import de.moritzbruder.gui.interaction.FieldMenu;
+import de.moritzbruder.io.Verbosity;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -124,8 +125,16 @@ public class FieldComponent extends JClickableComponent {
         //Get cell and kill/makeAlive depending on current state
         try {
             Cell cell = field.getCell(getCellCoords(e.getPoint(), new DrawOffsets()));
-            if (cell.isAlive()) field.killCell(cell);
-            else field.makeCellComeAlive(cell);
+            if (cell.isAlive()) {
+                Verbosity.shared.log("Manually killed " + cell);
+                field.killCell(cell);
+
+            }
+            else {
+                Verbosity.shared.log("Manually made " + cell + " come alive.");
+                field.makeCellComeAlive(cell);
+
+            }
 
             this.repaint();
         } catch (IndexOutsideFieldException exc) {
