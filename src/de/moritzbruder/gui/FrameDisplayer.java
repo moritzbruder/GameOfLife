@@ -6,6 +6,7 @@ import de.moritzbruder.gui.components.StatsComponent;
 import de.moritzbruder.gui.interaction.AutoRound;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * A helper-class to create A frame that displays a Game Of Life
@@ -16,17 +17,17 @@ public class FrameDisplayer {
     /**
      * Points at the {@link Field}, that we're displaying with this {@link FrameDisplayer}
      */
-    Field field;
+    private Field field;
 
     /**
      * The Frame that is created by this helper class
      */
-    JFrame frame;
+    private JFrame frame;
 
     /**
      * A timed loop that automatically triggrs the next round
      */
-    AutoRound autoRound;
+    private AutoRound autoRound;
 
     /**
      * Creates a new instance
@@ -38,9 +39,10 @@ public class FrameDisplayer {
 
         //Make Window
         frame = new JFrame("Moritz Bruder's Game Of Life");
-        frame.setSize(1200, 600);
+        frame.setSize(620, 875);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLayout(null);
 
         /*   Input for round control   */
@@ -48,34 +50,39 @@ public class FrameDisplayer {
         //Button to proceed to next round
         JButton nextRoundButton = new JButton("Next Round");
         frame.add(nextRoundButton);
-        nextRoundButton.setBounds(700, 100, 150, 30);
+        nextRoundButton.setBounds(50, 600, 150, 30);
 
-        //check Box to enabled automatic round-continueing
+        //check Box to enabled automatic round-continuing
         JCheckBox autoRoundCheckBox = new JCheckBox("Auto-Round");
         frame.add(autoRoundCheckBox);
-        autoRoundCheckBox.setBounds(900, 100, 150, 30);
+        autoRoundCheckBox.setBounds(250, 600, 150, 30);
 
         //Slider to choose speed/round-frequency
-        JSlider slider = new JSlider(20, 2000);
+        JSlider slider = new JSlider(0, 1000 - 20);
         frame.add(slider);
-        slider.setBounds(695, 150 , 405, 30);
+        slider.setBounds(43, 650 , 514, 30);
         slider.setEnabled(false);
         slider.setValue(500);
 
         //Text showing frequency
         JLabel frequencyLabel = new JLabel("Frequency: 500ms");
         frame.add(frequencyLabel);
-        frequencyLabel.setBounds(700, 180, 150, 30);
+        frequencyLabel.setBounds(50, 670, 150, 30);
 
         //Text Showing how many cells are alive/dead
         JLabel statsLabel = new JLabel("N/A");
         frame.add(statsLabel);
-        statsLabel.setBounds(700, 250, 250, 30);
+        statsLabel.setBounds(50, 750, 500, 30);
+
+
+        JSeparator separator = new JSeparator();
+        frame.add(separator);
+        separator.setBounds(100, 100, 100, 100);
 
         //Progress bar showing how many cell are alive/dead
         StatsComponent statsComp = new StatsComponent(field);
         frame.add(statsComp);
-        statsComp.setBounds(700, 220, 400, 25);
+        statsComp.setBounds(50, 720, 500, 25);
 
         //FieldComponent
         FieldComponent fieldComp = new FieldComponent(this.field, frame);
@@ -92,8 +99,9 @@ public class FrameDisplayer {
 
         //Show Frequency hint
         slider.addChangeListener(e -> {
-            frequencyLabel.setText("Frequency: " + slider.getValue() + "ms");
-            autoRound.setRate(slider.getValue());
+            int rate = 1000 - slider.getValue();
+            frequencyLabel.setText("Frequency: " + rate + "ms");
+            autoRound.setRate(rate);
 
         });
 
@@ -101,31 +109,28 @@ public class FrameDisplayer {
         autoRoundCheckBox.addChangeListener(e -> {
             slider.setEnabled(autoRoundCheckBox.isSelected());
             nextRoundButton.setEnabled(!autoRoundCheckBox.isSelected());
-            //TODO; Enable auto-round
             if (autoRoundCheckBox.isSelected()) autoRound.start();
             else autoRound.stop();
-
 
         });
 
         //Manually trigger next round
         nextRoundButton.addActionListener(e -> {
-            System.out.println("NextRound-Button Clicked");
+            System.out.println(frame.getWidth() + "x" + frame.getHeight());
             field.nextRound();
+
+        });
+
+        Field.OnFieldChangedListener listener = () -> {
             fieldComp.repaint();
-        });
+            statsComp.repaint();
+            statsLabel.setText(field.getAliveCellCount() + " of " + field.getCellCount() + " cells are alive.");
+            sizeLabel.setText("Size: " + field.getWidth() + "x" + field.getHeight());
+        };
 
-
-        //Subscribe to changes on the field
-        field.subscribe(new Field.OnFieldChangedListener() {
-            @Override
-            public void onFieldChanged() {
-                fieldComp.repaint();
-                statsComp.repaint();
-                statsLabel.setText(field.getAliveCellCount() + " of " + field.getCellCount() + " cells are alive.");
-                sizeLabel.setText("Size: " + field.getWidth() + "x" + field.getHeight());
-            }
-        });
+        //Subscribe to changes on the field & trigger listener for initial setup
+        field.subscribe(listener);
+        listener.onFieldChanged();
 
         //Show Window
         frame.setVisible(true);
