@@ -62,7 +62,16 @@ public class SizeDialog {
                 //Max size is 100
                 JOptionPane.showMessageDialog(frame, "The field must not be higher or wider than 100 cells!");
                 return;
+
             }
+
+            if (widthField.getValue() < 1 || heightField.getValue() < 1) {
+                //Min size is 1
+                JOptionPane.showMessageDialog(frame, "The field must be at least 1 cell high and wide!");
+                return;
+
+            }
+
             field.resize(widthField.getValue(), heightField.getValue());
             frame.setVisible(false);
 
