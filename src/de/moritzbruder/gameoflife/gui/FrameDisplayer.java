@@ -118,8 +118,7 @@ public class FrameDisplayer {
 
         //Manually trigger next round
         nextRoundButton.addActionListener(e -> {
-            Verbosity.shared.log("Manually triggered next round");
-            field.nextRound();
+            Verbosity.shared.log("Manually triggered next round. " + (field.nextRound() ? "The field changed." : "No changes happened."));
 
         });
 

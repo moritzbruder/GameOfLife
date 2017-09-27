@@ -162,11 +162,14 @@ public class Field {
 
     /**
      * Triggers the calculation of the following states for each cell. Iterates through all cells to calculate and then again to commit and draw
+     * @return whether there happened any true changes in this step
      */
-    public void nextRound () {
+    public boolean nextRound () {
         //Go through all cells and calculate upcoming state and then commit
 
         currentlyAliveCount = 0;
+
+        boolean didChange = false;
 
         for (int x = 0; x < field.length; x++)
             for (int y = 0; y < Field.this.field[x].length; y++) {
@@ -176,11 +179,15 @@ public class Field {
         for (int x = 0; x < field.length; x++)
             for (int y = 0; y < Field.this.field[x].length; y++) {
                 Cell cell = this.getCell(x, y);
-                cell.commit();
+                boolean cellDidChange = cell.commit();
+
                 if (cell.isAlive()) currentlyAliveCount++;
+                if (cellDidChange) didChange = true;
             }
 
         if (onChangeListener != null) onChangeListener.onFieldChanged();
+
+        return didChange;
     }
 
     /**
