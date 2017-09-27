@@ -148,14 +148,21 @@ public class Cell {
 
     /**
      * Commits the change that is represented by upcomingState
+     * @return whether the state of the cell changed
      */
-    public void commit () {
+    public boolean commit () {
+        //Throw error if inconsistent state
         if (upcomingState == UNDETERMINED) throw new IllegalStateException("Trying to commit without determining upcoming state first. " + this);
 
-        //Set alive-state according to willBe-state
+        //Set alive-state according to willBe-state, and store if any change happened
+        boolean didChange = (upcomingState == ALIVE) != mIsAlive;
         this.mIsAlive = (upcomingState == ALIVE);
+
         //Reset willBe-state
         this.upcomingState = UNDETERMINED;
+
+        //return
+        return didChange;
 
     }
 

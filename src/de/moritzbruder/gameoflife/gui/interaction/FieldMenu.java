@@ -152,13 +152,28 @@ public class FieldMenu extends JPopupMenu {
 
             long startTime = System.currentTimeMillis();
             int timeout = 1500; //1.5 sec
+            int roundsWithoutChange = 0;
 
             long stepCount = 0;
             int maxAlive = 0;
 
-            while (System.currentTimeMillis() - startTime < timeout && field.getAliveCellCount() != 0) {
+            //Run until timeout, 10 steps without change or all cells are dead
+            while (System.currentTimeMillis() - startTime < timeout
+                    && roundsWithoutChange < 10
+                    && field.getAliveCellCount() != 0) {
+                //Track max alive count
                 if (field.getAliveCellCount() > maxAlive) maxAlive = field.getAliveCellCount();
-                field.nextRound();
+
+                //Count rounds without change or reset
+                if (field.nextRound()) {
+                    //Field changed
+                    roundsWithoutChange = 0;
+                } else {
+                    //No changes
+                    roundsWithoutChange++;
+                }
+
+                //Count steps
                 stepCount++;
 
             }
@@ -171,7 +186,7 @@ public class FieldMenu extends JPopupMenu {
             } else {
                 //Timeout
                 Verbosity.shared.log("Error while simulating");
-                JOptionPane.showMessageDialog(parentFrame, "Error (Timeout): It took longer than 1.5 seconds to simulate until all cells are dead.");
+                JOptionPane.showMessageDialog(parentFrame, "Error (Timeout): " + (roundsWithoutChange < 10 ? "It took longer than 1.5 seconds until to simulate all cells are dead." : "There were 10 consecutive steps without change."));
             }
         }).start());
         add(simulateItem);
