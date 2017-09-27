@@ -40,9 +40,9 @@ public class FieldMenu extends JPopupMenu {
         add(resizeItem);
 
         //Add Submenu for export-actions
-        JMenu exportMenu = new JMenu("Export");
+        JMenu exportMenu = new JMenu("Export to...");
 
-        JMenuItem exportClipboardItem = new JMenuItem("To Clipboard");
+        JMenuItem exportClipboardItem = new JMenuItem("Clipboard");
         exportClipboardItem.addActionListener(e -> {
             Verbosity.shared.log("Exported " + field + " to clipboard.");
             StringSelection selection = new StringSelection(StringExport.export(field));
@@ -52,7 +52,7 @@ public class FieldMenu extends JPopupMenu {
         exportMenu.add(exportClipboardItem);
 
         //Add Item to export to file
-        JMenuItem exportFileItem = new JMenuItem("To file");
+        JMenuItem exportFileItem = new JMenuItem("File");
         exportFileItem.addActionListener(e -> {
             JFileChooser chooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -78,10 +78,10 @@ public class FieldMenu extends JPopupMenu {
         add(exportMenu);
 
         //Add Submenu for import-actions
-        JMenu importMenu = new JMenu("Import");
+        JMenu importMenu = new JMenu("Import from...");
 
         //Add Item to import from a file
-        JMenuItem importFileItem = new JMenuItem("From File");
+        JMenuItem importFileItem = new JMenuItem("File");
         importFileItem.addActionListener(e -> {
             JFileChooser chooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -112,13 +112,8 @@ public class FieldMenu extends JPopupMenu {
         });
         importMenu.add(importFileItem);
 
-        //Add Submenu with items to apply a template to the given field
-        JMenu importCollectionMenu = new JMenu("From Pattern-Collection");
-        TemplateCollection.applyToMenu(importCollectionMenu, field);
-        importMenu.add(importCollectionMenu);
-
         //Add Item to input String directly
-        JMenuItem importStringItem = new JMenuItem("From Text-Input");
+        JMenuItem importStringItem = new JMenuItem("Text-Input");
         importStringItem.addActionListener(e -> {
 
             //Prompt user for input
@@ -140,6 +135,11 @@ public class FieldMenu extends JPopupMenu {
 
         });
         importMenu.add(importStringItem);
+
+        //Add Submenu with items to apply a template to the given field
+        JMenu importCollectionMenu = new JMenu("Pattern-Collection");
+        TemplateCollection.applyToMenu(importCollectionMenu, field);
+        importMenu.add(importCollectionMenu);
 
         //add submenu
         add(importMenu);
