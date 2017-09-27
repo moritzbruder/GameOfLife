@@ -1,6 +1,8 @@
 # Game of Life
 
 ## Introduction
+This repo is part of the [it-talents.de](http://www.it-talents.de) coding competition for September 2017.
+
 I decided to create a version of the game of life that is is used via a GUI.
 
 ## How to use
